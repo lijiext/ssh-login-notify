@@ -1,0 +1,46 @@
+name: Bug report
+description: Report a reproducible defect
+title: "bug: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: Remove Webhook URLs, secrets, host keys, user names, and IP addresses from logs.
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: 1.0.1 linux/arm64
+    validations:
+      required: true
+
+  - type: input
+    id: system
+    attributes:
+      label: Operating system
+      placeholder: openEuler 24.03 aarch64
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+    validations:
+      required: true

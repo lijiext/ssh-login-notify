@@ -1,0 +1,58 @@
+version: 2
+
+project_name: ssh-login-notify
+
+before:
+  hooks:
+    - go test ./...
+
+builds:
+  - id: linux
+    main: ./cmd/ssh-login-notify
+    binary: ssh-login-notify
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm64
+      - arm
+      - "386"
+    goarm:
+      - "7"
+    flags:
+      - -trimpath
+      - -buildvcs=false
+    ldflags:
+      - >-
+        -s -w
+        -X github.com/lijiext/ssh-login-notify/internal/app.version={{ .Version }}
+
+archives:
+  - id: linux
+    ids:
+      - linux
+    formats:
+      - tar.gz
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_{{ .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else if eq .Arch "arm64" }}aarch64
+      {{- else }}{{ .Arch }}v{{ .Arm }}{{ end }}
+
+checksum:
+  name_template: checksums.txt
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^chore:'
+
+release:
+  draft: false
+  prerelease: auto
